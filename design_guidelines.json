@@ -1,0 +1,138 @@
+{
+  "project_name": "Medical Distributor Payment Reminder Prototype",
+  "design_philosophy": {
+    "identity": "E1: The Anti-AI Designer",
+    "core_principles": [
+      "Fusion over Imitation: Clinical Precision x Fintech Speed",
+      "Content is King: Data legibility is the primary aesthetic",
+      "Negative Space: High macro-spacing (p-8+), High micro-density (tables)",
+      "No Gradients: Flat, solid, authoritative colors",
+      "Asymmetry: Left-aligned typography, grid-based layouts"
+    ],
+    "anti_patterns": [
+      "No centered text for headings or cards",
+      "No decorative gradients",
+      "No 'Inter' font for headings",
+      "No teal colors (#1B93A4)",
+      "No generic 'SaaS Blue' without intention"
+    ]
+  },
+  "typography": {
+    "font_family": {
+      "headings": "Manrope, sans-serif",
+      "body": "IBM Plex Sans, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "scale": {
+      "h1": "text-4xl font-bold tracking-tight text-slate-900",
+      "h2": "text-2xl font-semibold tracking-tight text-slate-900",
+      "h3": "text-xl font-medium text-slate-800",
+      "body": "text-sm leading-relaxed text-slate-600",
+      "caption": "text-xs font-medium text-slate-500 uppercase tracking-wider"
+    },
+    "imports": [
+      "@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Manrope:wght@400;600;700;800&display=swap');"
+    ]
+  },
+  "colors": {
+    "theme": "light",
+    "palette": {
+      "primary": {
+        "DEFAULT": "#0F172A",
+        "foreground": "#F8FAFC",
+        "hover": "#1E293B"
+      },
+      "secondary": {
+        "DEFAULT": "#F1F5F9",
+        "foreground": "#0F172A",
+        "hover": "#E2E8F0"
+      },
+      "accent": {
+        "DEFAULT": "#2563EB",
+        "foreground": "#FFFFFF",
+        "hover": "#1D4ED8"
+      },
+      "background": "#F8FAFC",
+      "surface": "#FFFFFF",
+      "border": "#E2E8F0",
+      "muted": "#64748B",
+      "success": "#10B981",
+      "warning": "#F59E0B",
+      "error": "#EF4444"
+    },
+    "usage": {
+      "dashboard_bg": "bg-slate-50",
+      "card_bg": "bg-white",
+      "sidebar_bg": "bg-slate-900 text-slate-50",
+      "text_primary": "text-slate-900",
+      "text_secondary": "text-slate-500"
+    }
+  },
+  "layout": {
+    "grid_system": "Bento Grid Mode B (High Density)",
+    "spacing": {
+      "container_padding": "p-6 md:p-10",
+      "section_gap": "gap-8",
+      "component_gap": "gap-4"
+    },
+    "structure": {
+      "sidebar_width": "w-64",
+      "header_height": "h-16",
+      "max_width": "max-w-7xl mx-auto"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-slate-900 text-white hover:bg-slate-800 rounded-md px-4 py-2 font-medium transition-all active:scale-95",
+      "secondary": "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-md px-4 py-2 font-medium transition-all",
+      "ghost": "bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900 rounded-md px-3 py-2 transition-all",
+      "destructive": "bg-red-50 text-red-600 hover:bg-red-100 border border-red-100 rounded-md px-4 py-2 transition-all"
+    },
+    "cards": {
+      "style": "bg-white border border-slate-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200",
+      "padding": "p-6"
+    },
+    "inputs": {
+      "style": "flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+    },
+    "tables": {
+      "style": "w-full caption-bottom text-sm",
+      "header": "h-12 px-4 text-left align-middle font-medium text-slate-500 [&:has([role=checkbox])]:pr-0",
+      "row": "border-b border-slate-100 transition-colors hover:bg-slate-50/50 data-[state=selected]:bg-slate-50",
+      "cell": "p-4 align-middle [&:has([role=checkbox])]:pr-0"
+    }
+  },
+  "assets": {
+    "icons_library": "lucide-react",
+    "images": {
+      "login_hero": {
+        "url": "https://images.unsplash.com/photo-1573207535342-8c0f9506112e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MDV8MHwxfHNlYXJjaHwxfHxtZWRpY2FsJTIwd2FyZWhvdXNlJTIwbG9naXN0aWNzfGVufDB8fHx8MTc2OTMzMDE0MXww&ixlib=rb-4.1.0&q=85",
+        "alt": "Medical Warehouse Operations",
+        "usage": "Login page split screen image"
+      },
+      "empty_state": {
+        "url": "https://images.unsplash.com/photo-1603219950587-b4f3f7ee87e7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1OTV8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBtaW5pbWFsaXN0JTIwb2ZmaWNlJTIwZGVzayUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzY5MzMwMTQyfDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Clean Workspace",
+        "usage": "Dashboard empty states or 404 page"
+      },
+      "medical_abstract": {
+        "url": "https://images.pexels.com/photos/4210607/pexels-photo-4210607.jpeg",
+        "alt": "Medical Abstract",
+        "usage": "Subtle background for cards or banners"
+      }
+    }
+  },
+  "universal_guidelines": [
+    "DO NOT use gradients for backgrounds.",
+    "DO NOT center align text in cards or headers. Left align is standard.",
+    "Use 'Manrope' for all headings (h1-h6).",
+    "Use 'IBM Plex Sans' for all body text.",
+    "Ensure all interactive elements have 'data-testid'.",
+    "Use 'sonner' for toast notifications.",
+    "Use 'lucide-react' for icons.",
+    "Tables must be dense and information-rich.",
+    "Primary action buttons must be solid Slate-900.",
+    "Secondary actions must be outlined Slate-200."
+  ],
+  "instructions_to_main_agent": "You are building a high-precision medical fintech dashboard. The user is a busy wholesaler. Speed and clarity are paramount. Do not add decorative fluff. Stick to the grid. Use the provided image URLs for the login and empty states. Implement the multi-language switcher in the top right header. Use Shadcn UI components but override the default radius to 'rounded-md' and fonts as specified."
+}

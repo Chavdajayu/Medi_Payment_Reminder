@@ -1,0 +1,11 @@
+{
+  "en": {
+    "reminderTemplate": "Dear {{retailer}}, you have ₹{{totalDue}} outstanding across {{invoiceCount}} invoices. Kindly pay by {{dueDate}}. - {{wholesaler}}"
+  },
+  "hi": {
+    "reminderTemplate": "प्रिय {{retailer}}, आपकी ₹{{totalDue}} की बकाया राशि {{invoiceCount}} चालानों से है। कृपया {{dueDate}} तक भुगतान करें। - {{wholesaler}}"
+  },
+  "gu": {
+    "reminderTemplate": "પ્રિય {{retailer}}, તમારી ₹{{totalDue}} બાકી રકમ {{invoiceCount}} ઇન્વોઇસમાંથી છે. કૃપા કરીને {{dueDate}} સુધી ચુકવણી કરો. - {{wholesaler}}"
+  }
+}
