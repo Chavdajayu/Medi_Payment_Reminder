@@ -1,7 +1,7 @@
-const { makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = require('@whiskeysockets/baileys');
-const qrcode = require('qrcode');
-const fs = require('fs');
-const path = require('path');
+import { makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } from '@whiskeysockets/baileys';
+import qrcode from 'qrcode';
+import fs from 'fs';
+import path from 'path';
 
 const SESSION_DIR = path.join(process.cwd(), 'whatsapp-session');
 
@@ -107,4 +107,13 @@ class WhatsAppService {
 }
 
 const whatsappService = new WhatsAppService();
-module.exports = whatsappService;
+
+export const sendWhatsAppMessage = async (number, message) => {
+  return await whatsappService.sendMessage(number, message);
+};
+
+export const getQR = () => whatsappService.getQR();
+export const getStatus = () => whatsappService.getStatus();
+export const resetSession = () => whatsappService.reset();
+
+export default whatsappService;

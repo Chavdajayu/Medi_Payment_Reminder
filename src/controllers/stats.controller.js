@@ -1,6 +1,6 @@
-const db = require('../config/firebase');
+import db from '../config/firebase.js';
 
-exports.getStats = async (req, res) => {
+export const getStats = async (req, res) => {
   try {
     const snapshot = await db.collection('users').doc(req.params.uid).collection('invoices').get();
     

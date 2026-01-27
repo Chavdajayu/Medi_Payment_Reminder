@@ -1,8 +1,8 @@
-const fs = require('fs');
-const pdf = require('pdf-parse');
-const xlsx = require('xlsx');
+import fs from 'fs';
+import pdf from 'pdf-parse';
+import xlsx from 'xlsx';
 
-async function parseFile(filePath, mimeType) {
+export async function parseFile(filePath, mimeType) {
   if (mimeType === 'application/pdf') {
     return await parsePDF(filePath);
   } else if (mimeType.includes('sheet') || mimeType.includes('excel')) {
@@ -57,4 +57,4 @@ function parseExcel(filePath) {
   });
 }
 
-module.exports = { parseFile };
+export default { parseFile };

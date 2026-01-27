@@ -1,7 +1,7 @@
-const db = require('../config/firebase');
-const admin = require('firebase-admin');
+import db from '../config/firebase.js';
+import admin from 'firebase-admin';
 
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const { name, email, password, businessName, whatsappNumber } = req.body;
 
@@ -45,7 +45,7 @@ exports.register = async (req, res) => {
   }
 };
 
-exports.syncUser = async (req, res) => {
+export const syncUser = async (req, res) => {
   try {
     const { uid, email, businessName } = req.body;
     

@@ -1,10 +1,11 @@
-const cron = require('node-cron');
-const { checkReminders } = require('../services/reminder.service');
+import cron from 'node-cron';
+import { checkReminders } from '../services/reminder.service.js';
 
-function startScheduler() {
-  // Run every hour
+const startReminderScheduler = () => {
   cron.schedule('0 * * * *', checkReminders);
   console.log('✅ Reminder Scheduler started (Hourly Check)');
-}
+};
 
-module.exports = { startScheduler };
+startReminderScheduler();
+
+export { startReminderScheduler };

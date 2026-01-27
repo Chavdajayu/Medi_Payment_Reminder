@@ -1,6 +1,6 @@
-const whatsappService = require('../services/whatsapp.service');
+import whatsappService from '../services/whatsapp.service.js';
 
-exports.getQR = (req, res) => {
+export const getQR = (req, res) => {
   const qr = whatsappService.getQR();
   if (qr) {
     res.json({ qr });
@@ -9,11 +9,11 @@ exports.getQR = (req, res) => {
   }
 };
 
-exports.getStatus = (req, res) => {
+export const getStatus = (req, res) => {
   res.json({ status: whatsappService.getStatus() });
 };
 
-exports.reset = async (req, res) => {
+export const reset = async (req, res) => {
   try {
     await whatsappService.reset();
     res.json({ success: true });
@@ -22,7 +22,7 @@ exports.reset = async (req, res) => {
   }
 };
 
-exports.send = async (req, res) => {
+export const send = async (req, res) => {
   const { to, message } = req.body;
   try {
     await whatsappService.sendMessage(to, message);

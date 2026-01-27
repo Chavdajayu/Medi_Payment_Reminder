@@ -1,6 +1,6 @@
-const db = require('../config/firebase');
+import db from '../config/firebase.js';
 
-exports.getInvoices = async (req, res) => {
+export const getInvoices = async (req, res) => {
   try {
     const snapshot = await db.collection('users').doc(req.params.uid).collection('invoices').get();
     const invoices = [];
@@ -11,7 +11,7 @@ exports.getInvoices = async (req, res) => {
   }
 };
 
-exports.updateInvoice = async (req, res) => {
+export const updateInvoice = async (req, res) => {
   try {
     const { payment_status } = req.body;
     await db.collection('users').doc(req.params.uid).collection('invoices').doc(req.params.invoiceId).update({
@@ -23,7 +23,7 @@ exports.updateInvoice = async (req, res) => {
   }
 };
 
-exports.createInvoice = async (req, res) => {
+export const createInvoice = async (req, res) => {
   try {
     const { uid, invoice_number, retailer_name, retailer_phone, amount, due_date } = req.body;
     

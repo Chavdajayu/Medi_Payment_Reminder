@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import * as reminderController from '../controllers/reminder.controller.js';
+
 const router = express.Router();
-const reminderController = require('../controllers/reminder.controller');
 
 router.post('/trigger-reminders', reminderController.triggerReminders);
 
-module.exports = router;
+export default router;

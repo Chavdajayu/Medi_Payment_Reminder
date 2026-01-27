@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import * as retailersController from '../controllers/retailers.controller.js';
+
 const router = express.Router();
-const retailersController = require('../controllers/retailers.controller');
 
 router.get('/:uid', retailersController.getRetailers);
 router.post('/', retailersController.createRetailer);
 
-module.exports = router;
+export default router;

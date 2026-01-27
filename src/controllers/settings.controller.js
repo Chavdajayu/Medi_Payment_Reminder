@@ -1,6 +1,6 @@
-const db = require('../config/firebase');
+import db from '../config/firebase.js';
 
-exports.updateSettings = async (req, res) => {
+export const updateSettings = async (req, res) => {
   const { uid, settings } = req.body;
   try {
     await db.collection('users').doc(uid).set({ settings }, { merge: true });
@@ -10,7 +10,7 @@ exports.updateSettings = async (req, res) => {
   }
 };
 
-exports.getSettings = async (req, res) => {
+export const getSettings = async (req, res) => {
   try {
     const doc = await db.collection('users').doc(req.params.uid).get();
     if (doc.exists && doc.data().settings) {

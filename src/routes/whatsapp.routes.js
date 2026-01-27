@@ -1,10 +1,11 @@
-const express = require('express');
+import express from 'express';
+import * as whatsappController from '../controllers/whatsapp.controller.js';
+
 const router = express.Router();
-const whatsappController = require('../controllers/whatsapp.controller');
 
 router.get('/qr', whatsappController.getQR);
 router.get('/status', whatsappController.getStatus);
 router.post('/reset', whatsappController.reset);
 router.post('/send', whatsappController.send);
 
-module.exports = router;
+export default router;

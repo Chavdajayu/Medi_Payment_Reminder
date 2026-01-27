@@ -1,7 +1,7 @@
-const fs = require('fs');
-const { parseFile } = require('../services/pdf.service');
+import fs from 'fs';
+import { parseFile } from '../services/pdf.service.js';
 
-exports.uploadPdf = async (req, res) => {
+export const uploadPdf = async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
   }

@@ -1,10 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const multer = require('multer');
-const pdfController = require('../controllers/pdf.controller');
+import express from 'express';
+import multer from 'multer';
+import * as pdfController from '../controllers/pdf.controller.js';
 
+const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
 router.post('/', upload.single('file'), pdfController.uploadPdf);
 
-module.exports = router;
+export default router;

@@ -1,6 +1,6 @@
-const { checkReminders } = require('../services/reminder.service');
+import { checkReminders } from '../services/reminder.service.js';
 
-exports.triggerReminders = async (req, res) => {
+export const triggerReminders = async (req, res) => {
   try {
     console.log("⚡ Manual trigger for reminder check...");
     await checkReminders();

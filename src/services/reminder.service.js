@@ -1,7 +1,7 @@
-const db = require('../config/firebase');
-const whatsappService = require('./whatsapp.service');
+import db from '../config/firebase.js';
+import * as whatsappService from './whatsapp.service.js';
 
-const checkReminders = async () => {
+export const checkReminders = async () => {
   const currentHour = new Date().getHours();
   const timeString = `${currentHour.toString().padStart(2, '0')}:00`;
 
@@ -48,7 +48,7 @@ const processUserReminders = async (userDoc, currentHour, today) => {
                       const message = `Hello ${invoice.buyerName || invoice.retailer_name},\nThis is a reminder from ${userData.businessName || 'Medi Payment'}.\nYour invoice ${invoice.invoiceNumber || invoice.invoice_number} for amount ${invoice.amount} is due today (${invoice.dueDate || invoice.due_date}).\nPlease make the payment.`;
                       
                       try {
-                          await whatsappService.sendMessage(phoneNumber, message);
+                          await whatsappService.sendWhatsAppMessage(phoneNumber, message);
                           console.log(`✅ Reminder sent to ${invoice.buyerName || invoice.retailer_name} (${phoneNumber})`);
                       } catch (err) {
                           console.error(`❌ Failed to send reminder to ${phoneNumber}:`, err.message);
@@ -59,5 +59,3 @@ const processUserReminders = async (userDoc, currentHour, today) => {
       }
   }
 };
-
-module.exports = { checkReminders };

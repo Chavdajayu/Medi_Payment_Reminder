@@ -1,6 +1,6 @@
-const db = require('../config/firebase');
+import db from '../config/firebase.js';
 
-exports.getRetailers = async (req, res) => {
+export const getRetailers = async (req, res) => {
   try {
     const retailersMap = new Map();
 
@@ -60,7 +60,7 @@ exports.getRetailers = async (req, res) => {
   }
 };
 
-exports.createRetailer = async (req, res) => {
+export const createRetailer = async (req, res) => {
   try {
     const { uid, retailer_name, retailer_phone, unpaid_invoice_count, outstanding_amount } = req.body;
     
