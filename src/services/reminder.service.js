@@ -1,6 +1,5 @@
-const cron = require('node-cron');
-const { db } = require('./firebaseAdmin');
-const whatsappService = require('./whatsappService');
+const db = require('../config/firebase');
+const whatsappService = require('./whatsapp.service');
 
 const checkReminders = async () => {
   const currentHour = new Date().getHours();
@@ -11,7 +10,6 @@ const checkReminders = async () => {
   try {
     const today = new Date().toISOString().split('T')[0];
     
-    // 1. Get all users who have auto-reminders enabled
     const usersSnapshot = await db.collection('users').get();
     
     const promises = [];
@@ -35,10 +33,6 @@ const processUserReminders = async (userDoc, currentHour, today) => {
       const userTime = settings.reminder_time || "09:00";
       const userHour = parseInt(userTime.split(':')[0]);
       
-      // Check if it's the right hour OR if called manually (ignoring hour check for testing? No, stick to logic)
-      // Actually for manual trigger, we might want to FORCE it.
-      // But let's keep strict logic for now.
-      
       if (userHour === currentHour) {
           const invoicesSnapshot = await userDoc.ref.collection('invoices')
               .where('status', '==', 'unpaid')
@@ -48,14 +42,14 @@ const processUserReminders = async (userDoc, currentHour, today) => {
           if (!invoicesSnapshot.empty) {
               invoicesSnapshot.forEach(async (invDoc) => {
                   const invoice = invDoc.data();
-                  const phoneNumber = invoice.phoneNumber; 
+                  const phoneNumber = invoice.phoneNumber || invoice.retailer_phone; 
                   
                   if (phoneNumber && whatsappService.getStatus() === 'CONNECTED') {
-                      const message = `Hello ${invoice.buyerName},\nThis is a reminder from ${userData.businessName || 'Medi Payment'}.\nYour invoice ${invoice.invoiceNumber} for amount ${invoice.amount} is due today (${invoice.dueDate}).\nPlease make the payment.`;
+                      const message = `Hello ${invoice.buyerName || invoice.retailer_name},\nThis is a reminder from ${userData.businessName || 'Medi Payment'}.\nYour invoice ${invoice.invoiceNumber || invoice.invoice_number} for amount ${invoice.amount} is due today (${invoice.dueDate || invoice.due_date}).\nPlease make the payment.`;
                       
                       try {
                           await whatsappService.sendMessage(phoneNumber, message);
-                          console.log(`✅ Reminder sent to ${invoice.buyerName} (${phoneNumber})`);
+                          console.log(`✅ Reminder sent to ${invoice.buyerName || invoice.retailer_name} (${phoneNumber})`);
                       } catch (err) {
                           console.error(`❌ Failed to send reminder to ${phoneNumber}:`, err.message);
                       }
@@ -66,10 +60,4 @@ const processUserReminders = async (userDoc, currentHour, today) => {
   }
 };
 
-function startScheduler() {
-  // Run every hour
-  cron.schedule('0 * * * *', checkReminders);
-  console.log('✅ Reminder Scheduler started (Hourly Check)');
-}
-
-module.exports = { startScheduler, checkReminders };
+module.exports = { checkReminders };

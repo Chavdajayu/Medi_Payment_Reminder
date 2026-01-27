@@ -1,8 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const { db } = require('../server-lib/firebaseAdmin');
+const db = require('../config/firebase');
 
-router.get('/:uid', async (req, res) => {
+exports.getInvoices = async (req, res) => {
   try {
     const snapshot = await db.collection('users').doc(req.params.uid).collection('invoices').get();
     const invoices = [];
@@ -11,9 +9,9 @@ router.get('/:uid', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-router.put('/:uid/:invoiceId', async (req, res) => {
+exports.updateInvoice = async (req, res) => {
   try {
     const { payment_status } = req.body;
     await db.collection('users').doc(req.params.uid).collection('invoices').doc(req.params.invoiceId).update({
@@ -23,9 +21,9 @@ router.put('/:uid/:invoiceId', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-router.post('/', async (req, res) => {
+exports.createInvoice = async (req, res) => {
   try {
     const { uid, invoice_number, retailer_name, retailer_phone, amount, due_date } = req.body;
     
@@ -51,6 +49,4 @@ router.post('/', async (req, res) => {
     console.error("Add Invoice Error:", error);
     res.status(500).json({ error: error.message });
   }
-});
-
-module.exports = router;
+};

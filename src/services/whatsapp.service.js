@@ -1,15 +1,15 @@
-const { makeWASocket, useMultiFileAuthState, DisconnectReason } = require('@whiskeysockets/baileys');
+const { makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = require('@whiskeysockets/baileys');
 const qrcode = require('qrcode');
 const fs = require('fs');
 const path = require('path');
 
-const SESSION_DIR = path.join(__dirname, '../whatsapp-session');
+const SESSION_DIR = path.join(process.cwd(), 'whatsapp-session');
 
 class WhatsAppService {
   constructor() {
     this.sock = null;
     this.qr = null;
-    this.status = 'DISCONNECTED'; // DISCONNECTED, CONNECTED, CONNECTING
+    this.status = 'DISCONNECTED';
     this.init();
   }
 
@@ -19,11 +19,13 @@ class WhatsAppService {
     }
 
     const { state, saveCreds } = await useMultiFileAuthState(SESSION_DIR);
+    const { version, isLatest } = await fetchLatestBaileysVersion();
+    console.log(`Using WA v${version.join('.')}, isLatest: ${isLatest}`);
 
     this.sock = makeWASocket({
+      version,
       auth: state,
       printQRInTerminal: true,
-      browser: ['Medi Payment Reminder', 'Chrome', '1.0.0'],
       connectTimeoutMs: 60000,
     });
 
@@ -46,7 +48,7 @@ class WhatsAppService {
         this.status = 'DISCONNECTED';
         this.qr = null;
         if (shouldReconnect) {
-          setTimeout(() => this.init(), 3000); // Wait 3s before reconnect
+          setTimeout(() => this.init(), 3000);
         }
       } else if (connection === 'open') {
         console.log('WhatsApp connection opened');
@@ -65,7 +67,6 @@ class WhatsAppService {
         this.sock = null;
       }
       
-      // Give it a moment to close handles
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       if (fs.existsSync(SESSION_DIR)) {
@@ -95,19 +96,15 @@ class WhatsAppService {
       throw new Error('WhatsApp not connected');
     }
     
-    // Ensure number has country code (default to 91 for India if 10 digits)
-    let formattedNumber = to.replace(/\D/g, ''); // Remove non-digits
+    let formattedNumber = to.replace(/\D/g, '');
     if (formattedNumber.length === 10) {
-        formattedNumber = '91' + formattedNumber;
+      formattedNumber = '91' + formattedNumber;
     }
     
-    // Append server domain to number if missing
-    const jid = formattedNumber.includes('@s.whatsapp.net') ? formattedNumber : `${formattedNumber}@s.whatsapp.net`;
-    
-    console.log(`Sending WhatsApp message to ${jid}`);
-    return await this.sock.sendMessage(jid, { text: message });
+    const jid = formattedNumber + '@s.whatsapp.net';
+    await this.sock.sendMessage(jid, { text: message });
   }
 }
 
-const service = new WhatsAppService();
-module.exports = service;
+const whatsappService = new WhatsAppService();
+module.exports = whatsappService;

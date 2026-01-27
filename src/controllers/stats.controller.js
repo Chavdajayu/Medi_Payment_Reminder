@@ -1,8 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const { db } = require('../server-lib/firebaseAdmin');
+const db = require('../config/firebase');
 
-router.get('/:uid', async (req, res) => {
+exports.getStats = async (req, res) => {
   try {
     const snapshot = await db.collection('users').doc(req.params.uid).collection('invoices').get();
     
@@ -42,6 +40,4 @@ router.get('/:uid', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
-
-module.exports = router;
+};

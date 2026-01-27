@@ -1,13 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const { db } = require('../server-lib/firebaseAdmin');
+const db = require('../config/firebase');
 
-// Get merged list of retailers (Manual + Aggregated from Invoices)
-router.get('/:uid', async (req, res) => {
+exports.getRetailers = async (req, res) => {
   try {
     const retailersMap = new Map();
 
-    // 1. Fetch Manual Retailers
     const manualSnapshot = await db.collection('users').doc(req.params.uid).collection('retailers').get();
     manualSnapshot.forEach(doc => {
       const data = doc.data();
@@ -22,7 +18,6 @@ router.get('/:uid', async (req, res) => {
       });
     });
 
-    // 2. Aggregate from Invoices
     const invoicesSnapshot = await db.collection('users').doc(req.params.uid).collection('invoices').get();
 
     invoicesSnapshot.forEach(doc => {
@@ -32,7 +27,7 @@ router.get('/:uid', async (req, res) => {
 
       if (!retailersMap.has(retailerName)) {
         retailersMap.set(retailerName, {
-          id: retailerName, // Use name as ID for auto-discovered
+          id: retailerName,
           retailer_name: retailerName,
           retailer_phone: retailerPhone,
           unpaid_invoice_count: 0,
@@ -44,7 +39,6 @@ router.get('/:uid', async (req, res) => {
 
       const retailer = retailersMap.get(retailerName);
       
-      // Update phone if missing in manual entry but found in invoice
       if (!retailer.retailer_phone && retailerPhone) {
         retailer.retailer_phone = retailerPhone;
       }
@@ -64,10 +58,9 @@ router.get('/:uid', async (req, res) => {
     console.error("Fetch Retailers Error:", error);
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-// Add Manual Retailer
-router.post('/', async (req, res) => {
+exports.createRetailer = async (req, res) => {
   try {
     const { uid, retailer_name, retailer_phone, unpaid_invoice_count, outstanding_amount } = req.body;
     
@@ -90,6 +83,4 @@ router.post('/', async (req, res) => {
     console.error("Add Retailer Error:", error);
     res.status(500).json({ error: error.message });
   }
-});
-
-module.exports = router;
+};
