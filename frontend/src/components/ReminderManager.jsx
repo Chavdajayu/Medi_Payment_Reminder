@@ -4,7 +4,8 @@ import { storage } from '../lib/storage';
 import { toast } from 'sonner';
 
 const CHECK_INTERVAL = 60 * 1000; // Check every minute
-const API = '/api';
+const API = import.meta.env.VITE_API_URL;
+
 
 export default function ReminderManager() {
   useEffect(() => {
