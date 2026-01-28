@@ -43,7 +43,7 @@ export default function Upload() {
       formData.append('uid', user.uid); // Pass UID for backend
 
       // 1. Upload and Parse on Backend
-      const response = await axios.post('/api/upload', formData, {
+      const response = await axios.post(`${API_URL}/api/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

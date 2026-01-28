@@ -86,3 +86,15 @@ android-sdk/
 # WhatsApp Session
 whatsapp-session/
 auth_info/
+
+# Security
+serviceAccountKey.json
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!vercel.json
+!design_guidelines.json
+!frontend/package.json
+!frontend/package-lock.json
+!frontend/vercel.json

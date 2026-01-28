@@ -32,7 +32,7 @@ export default function ReminderManager() {
           // Send Reminder
           const message = `Reminder: Invoice ${invoice.invoice_number} for Rs.${invoice.amount} is due on ${invoice.due_date}. Please pay immediately.`;
           
-          await axios.post(`${API}/send-whatsapp`, {
+          await axios.post(`${API_URL}/api/whatsapp/send`, {
             phone: invoice.retailer_phone,
             message: message
           });

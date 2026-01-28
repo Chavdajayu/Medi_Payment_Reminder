@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { Card } from '@/components/ui/card';
@@ -33,7 +34,7 @@ export default function Invoices() {
 
   const fetchInvoices = async () => {
     try {
-      const response = await axios.get(`/api/invoices/${user.uid}`);
+      const response = await axios.get(`${API_URL}/api/invoices/${user.uid}`);
       setInvoices(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error('Error fetching invoices:', error);
@@ -48,7 +49,7 @@ export default function Invoices() {
     e.preventDefault();
     setAdding(true);
     try {
-      const response = await axios.post('/api/invoices', {
+      const response = await axios.post(`${API_URL}/api/invoices`, {
         uid: user.uid,
         ...newInvoice
       });
@@ -72,7 +73,7 @@ export default function Invoices() {
 
   const handleStatusChange = async (invoiceId, newStatus) => {
     try {
-      await axios.put(`/api/invoices/${user.uid}/${invoiceId}`, { payment_status: newStatus });
+      await axios.put(`${API_URL}/api/invoices/${user.uid}/${invoiceId}`, { payment_status: newStatus });
       setInvoices(invoices.map(inv => 
         inv.id === invoiceId ? { ...inv, payment_status: newStatus } : inv
       ));
@@ -86,7 +87,7 @@ export default function Invoices() {
     try {
         const distributorName = user.displayName || 'Ganesh Pharma'; // Fallback to 'Ganesh Pharma' or user's name
         const message = `Dear ${invoice.retailer_name}, you have ₹${invoice.amount} outstanding for Invoice ${invoice.invoice_number}. Kindly pay by ${invoice.due_date}. - ${distributorName}`;
-        await axios.post(`/api/whatsapp/send`, {
+        await axios.post(`${API_URL}/api/whatsapp/send`, {
             to: invoice.retailer_phone,
             message: message
         });

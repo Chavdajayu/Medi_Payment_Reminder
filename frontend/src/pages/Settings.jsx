@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { Card } from '@/components/ui/card';
@@ -56,7 +57,7 @@ export default function Settings() {
 
   const checkWhatsAppStatus = useCallback(async () => {
     try {
-      const response = await axios.get('/api/whatsapp/status');
+      const response = await axios.get(`${API_URL}/api/whatsapp/status`);
       setWhatsappStatus(response.data.status);
       if (response.data.status === 'CONNECTED') {
         setQrCode(null);
@@ -94,7 +95,7 @@ export default function Settings() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      await axios.post('/api/settings', {
+      await axios.post(`${API_URL}/api/settings`, {
         uid: user.uid,
         settings
       });

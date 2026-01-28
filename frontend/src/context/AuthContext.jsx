@@ -8,6 +8,7 @@ import {
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 const AuthContext = createContext(null);
 
@@ -50,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
       // Sync with backend (Optional/Backup)
       try {
-        await axios.post('/api/auth/sync-user', {
+        await axios.post(`${API_URL}/api/auth/sync-user`, {
           uid: user.uid,
           email: user.email,
           businessName: business_name,

@@ -20,7 +20,7 @@ export default function Dashboard() {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get(`/api/stats/${user.uid}`);
+      const response = await axios.get(`${API_URL}/api/stats/${user.uid}`);
       setStats(response.data);
     } catch (error) {
       console.error('Error fetching stats:', error);

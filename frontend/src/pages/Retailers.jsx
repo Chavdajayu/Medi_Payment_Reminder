@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { Button } from '@/components/ui/button';
@@ -32,7 +33,7 @@ export default function Retailers() {
 
   const fetchRetailers = async () => {
     try {
-      const response = await axios.get(`/api/retailers/${user.uid}`);
+      const response = await axios.get(`${API_URL}/api/retailers/${user.uid}`);
       // Ensure response.data is an array
       setRetailers(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
@@ -50,7 +51,7 @@ export default function Retailers() {
     
     setAdding(true);
     try {
-      await axios.post('/api/retailers', {
+      await axios.post(`${API_URL}/api/retailers`, {
         uid: user.uid,
         retailer_name: newRetailer.name,
         retailer_phone: newRetailer.phone
@@ -77,7 +78,7 @@ export default function Retailers() {
       const distributorName = user.displayName || 'Ganesh Pharma';
       const dueDate = retailer.earliest_due_date ? new Date(retailer.earliest_due_date).toLocaleDateString() : 'Immediate';
       const message = `Dear ${retailer.retailer_name}, you have ₹${retailer.outstanding_amount} outstanding across ${retailer.unpaid_invoice_count} invoices. Kindly pay by ${dueDate}. - ${distributorName}`;
-      await axios.post(`/api/whatsapp/send`, {
+      await axios.post(`${API_URL}/api/whatsapp/send`, {
         to: retailer.retailer_phone,
         message: message
       });
