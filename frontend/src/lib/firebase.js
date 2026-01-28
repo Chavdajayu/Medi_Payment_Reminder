@@ -3,13 +3,13 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCl4kDzeifWSescTJhakoy8-35q_ecWCBI",
-  authDomain: "medi-payment-reminder.firebaseapp.com",
-  projectId: "medi-payment-reminder",
-  storageBucket: "medi-payment-reminder.firebasestorage.app",
-  messagingSenderId: "110911991390",
-  appId: "1:110911991390:web:79bd7c8b5823a8f6270ecf",
-  measurementId: "G-C5ZCX6F3N6"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase (Singleton pattern to prevent re-initialization)

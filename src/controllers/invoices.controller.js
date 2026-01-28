@@ -2,6 +2,7 @@ import db from '../config/firebase.js';
 
 export const getInvoices = async (req, res) => {
   try {
+    console.log("Fetching invoices for uid:", req.params.uid);
     const snapshot = await db.collection('users').doc(req.params.uid).collection('invoices').get();
     const invoices = [];
     snapshot.forEach(doc => invoices.push({ id: doc.id, ...doc.data() }));
@@ -17,6 +18,7 @@ export const updateInvoice = async (req, res) => {
     await db.collection('users').doc(req.params.uid).collection('invoices').doc(req.params.invoiceId).update({
       payment_status
     });
+    console.log("Updated invoice", req.params.invoiceId, "for uid", req.params.uid);
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -44,6 +46,7 @@ export const createInvoice = async (req, res) => {
 
     const docRef = await db.collection('users').doc(uid).collection('invoices').add(newInvoice);
 
+    console.log("Created invoice", docRef.id, "for uid", uid);
     res.json({ success: true, id: docRef.id, ...newInvoice });
   } catch (error) {
     console.error("Add Invoice Error:", error);

@@ -2,6 +2,7 @@ import db from '../config/firebase.js';
 
 export const getRetailers = async (req, res) => {
   try {
+    console.log("Fetching retailers for uid:", req.params.uid);
     const retailersMap = new Map();
 
     const manualSnapshot = await db.collection('users').doc(req.params.uid).collection('retailers').get();

@@ -16,6 +16,11 @@ import "./src/utils/scheduler.js";
 dotenv.config();
 
 const app = express();
+// Request logging
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.originalUrl}`);
+  next();
+});
 app.use(cors({
   origin: [
     "https://medi-payment-reminder.vercel.app",
@@ -26,6 +31,8 @@ app.use(cors({
 app.use(express.json());
 
 app.get("/", (req, res) => res.send("API Running"));
+// Health check
+app.get("/health", (req, res) => res.json({ status: "ok" }));
 
 // Master Prompt: Serve QR Code as HTML image
 app.get('/qr', (req, res) => {
@@ -44,6 +51,12 @@ app.use("/api/stats", statsRoutes);
 
 // Compatibility routes for existing frontend calls if any
 app.use("/api/upload", pdfRoutes); 
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error("Unhandled Error:", err);
+  res.status(500).json({ error: "Internal Server Error" });
+});
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`));

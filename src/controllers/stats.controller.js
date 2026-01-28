@@ -2,6 +2,7 @@ import db from '../config/firebase.js';
 
 export const getStats = async (req, res) => {
   try {
+    console.log("Fetching stats for uid:", req.params.uid);
     const snapshot = await db.collection('users').doc(req.params.uid).collection('invoices').get();
     
     let total_retailers = new Set();
@@ -38,6 +39,7 @@ export const getStats = async (req, res) => {
       total_overdue
     });
   } catch (error) {
+    console.error("Stats error:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
