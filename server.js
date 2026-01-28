@@ -21,6 +21,12 @@ app.use(express.json());
 
 app.get("/", (req, res) => res.send("API Running"));
 
+// Master Prompt: Serve QR Code as HTML image
+app.get('/qr', (req, res) => {
+  if (!global.qrImage) return res.send("QR not ready");
+  res.send(`<img src="${global.qrImage}" />`);
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/reminders", reminderRoutes);
 app.use("/api/whatsapp", whatsappRoutes);
@@ -33,5 +39,5 @@ app.use("/api/stats", statsRoutes);
 // Compatibility routes for existing frontend calls if any
 app.use("/api/upload", pdfRoutes); 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`));

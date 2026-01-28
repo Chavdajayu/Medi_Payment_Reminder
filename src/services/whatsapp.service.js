@@ -2,8 +2,10 @@ import { makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaile
 import qrcode from 'qrcode';
 import fs from 'fs';
 import path from 'path';
+import db from '../config/firebase.js';
 
-const SESSION_DIR = path.join(process.cwd(), 'whatsapp-session');
+// Use 'auth_info' as requested in Master Prompt
+const SESSION_DIR = path.join(process.cwd(), 'auth_info');
 
 class WhatsAppService {
   constructor() {
@@ -35,6 +37,7 @@ class WhatsAppService {
       if (qr) {
         try {
           this.qr = await qrcode.toDataURL(qr);
+          global.qrImage = this.qr; // Master Prompt requirement
           this.status = 'QR_READY';
           console.log('WhatsApp QR Code generated');
         } catch (err) {
@@ -47,6 +50,7 @@ class WhatsAppService {
         console.log('WhatsApp connection closed due to ', lastDisconnect.error, ', reconnecting ', shouldReconnect);
         this.status = 'DISCONNECTED';
         this.qr = null;
+        global.qrImage = null;
         if (shouldReconnect) {
           setTimeout(() => this.init(), 3000);
         }
@@ -54,10 +58,23 @@ class WhatsAppService {
         console.log('WhatsApp connection opened');
         this.status = 'CONNECTED';
         this.qr = null;
+        global.qrImage = null;
       }
     });
 
     this.sock.ev.on('creds.update', saveCreds);
+
+    // Master Prompt: Store WhatsApp events to Firestore
+    this.sock.ev.on('messages.upsert', async ({ messages }) => {
+      try {
+        if (messages && messages.length > 0) {
+          // Saving to 'messages' collection as requested
+          await db.collection('messages').add(messages[0]);
+        }
+      } catch (error) {
+        console.error('Error logging message to Firestore:', error.message);
+      }
+    });
   }
 
   async reset() {
@@ -75,6 +92,7 @@ class WhatsAppService {
       
       this.status = 'DISCONNECTED';
       this.qr = null;
+      global.qrImage = null;
       await this.init();
       return true;
     } catch (error) {
