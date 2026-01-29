@@ -34,7 +34,7 @@ export default function Settings() {
   const fetchSettings = useCallback(async () => {
     if (!user) return;
     try {
-      const res = await axios.get(`/api/settings/${user.uid}`);
+      const res = await axios.get(`${API_URL}/api/settings/${user.uid}`);
       if (res.data) setSettings(prev => ({ ...prev, ...res.data }));
     } catch (error) {
       console.error("Failed to fetch settings", error);
@@ -43,7 +43,7 @@ export default function Settings() {
 
   const handleGetQR = useCallback(async () => {
     try {
-      const response = await axios.get('/api/whatsapp/qr');
+      const response = await axios.get(`${API_URL}/api/whatsapp/qr`);
       if (response.data.qr) {
         setQrCode(response.data.qr);
         toast.success('Scan the QR code with WhatsApp');
@@ -83,7 +83,7 @@ export default function Settings() {
 
   const handleReset = async () => {
     try {
-      await axios.post('/api/whatsapp/reset');
+      await axios.post(`${API_URL}/api/whatsapp/reset`);
       setWhatsappStatus('DISCONNECTED');
       setQrCode(null);
       toast.success('Connection reset');

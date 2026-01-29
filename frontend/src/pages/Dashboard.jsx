@@ -38,35 +38,35 @@ export default function Dashboard() {
   const statCards = [
     {
       title: t('totalRetailers'),
-      value: stats?.total_retailers || 0,
+      value: stats?.totalRetailers ?? stats?.total_retailers || 0,
       icon: Users,
       color: 'text-blue-600',
       bg: 'bg-blue-50'
     },
     {
       title: t('totalOutstanding'),
-      value: `₹${(stats?.total_outstanding || 0).toLocaleString()}`,
+      value: `₹${(stats?.totalOutstanding ?? stats?.total_outstanding || 0).toLocaleString()}`,
       icon: DollarSign,
       color: 'text-orange-600',
       bg: 'bg-orange-50'
     },
     {
       title: t('totalPaid'),
-      value: `₹${(stats?.total_paid || 0).toLocaleString()}`,
+      value: `₹${(stats?.totalPaid ?? stats?.total_paid || 0).toLocaleString()}`,
       icon: CheckCircle,
       color: 'text-green-600',
       bg: 'bg-green-50'
     },
     {
       title: t('totalUnpaid'),
-      value: stats?.total_unpaid || 0,
+      value: stats?.totalUnpaid ?? stats?.total_unpaid || 0,
       icon: XCircle,
       color: 'text-red-600',
       bg: 'bg-red-50'
     },
     {
       title: t('totalOverdue'),
-      value: `₹${(stats?.total_overdue || 0).toLocaleString()}`,
+      value: `₹${(stats?.totalOverdue ?? stats?.total_overdue || 0).toLocaleString()}`,
       icon: AlertCircle,
       color: 'text-red-700',
       bg: 'bg-red-100'
