@@ -46,5 +46,16 @@ if (typeof window !== "undefined") {
 
 export const db = getFirestore(app);
 export const auth = getAuth(app);
-export const analytics = typeof window !== "undefined" ? isSupported().then(yes => yes ? getAnalytics(app) : null) : null;
+
+let analytics;
+if (typeof window !== "undefined") {
+  try {
+    analytics = getAnalytics(app);
+  } catch (error) {
+    console.warn("Firebase Analytics failed to initialize (likely blocked by ad blocker):", error);
+    analytics = null;
+  }
+}
+
+export { analytics };
 export default app;
