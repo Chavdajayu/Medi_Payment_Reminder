@@ -111,15 +111,39 @@ class WhatsAppService {
 
   async sendMessage(to, message) {
     if (this.status !== 'CONNECTED' || !this.sock) {
-      throw new Error('WhatsApp not connected');
+      throw new Error('WhatsApp not connected. Please scan QR code in Settings.');
     }
     
-    let formattedNumber = to.replace(/\D/g, '');
+    if (!to) {
+      throw new Error('Phone number is required');
+    }
+
+    // Ensure to is a string
+    const phoneStr = String(to);
+    
+    let formattedNumber = phoneStr.replace(/\D/g, '');
     if (formattedNumber.length === 10) {
       formattedNumber = '91' + formattedNumber;
     }
     
+    if (formattedNumber.length < 10) {
+       throw new Error(`Invalid phone number: ${to}`);
+    }
+
     const jid = formattedNumber + '@s.whatsapp.net';
+    
+    // Check if the number is on WhatsApp
+    try {
+        const [onWhatsApp] = await this.sock.onWhatsApp(jid);
+        if (!onWhatsApp || !onWhatsApp.exists) {
+            throw new Error(`Number ${to} is not on WhatsApp`);
+        }
+    } catch (err) {
+        // Continue anyway if check fails, or log it. 
+        // Some versions of Baileys/WhatsApp might fail this check even if valid.
+        console.warn('Failed to check if number is on WhatsApp:', err);
+    }
+
     await this.sock.sendMessage(jid, { text: message });
   }
 }

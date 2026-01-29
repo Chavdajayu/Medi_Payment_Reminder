@@ -42,7 +42,7 @@ router.get("/dashboard-overview/:userId", async (req, res) => {
       const amount = Number(data.amount || 0);
 
       // Status check (case insensitive)
-      const status = (data.status || "").toLowerCase();
+      const status = (data.payment_status || data.status || "").toLowerCase();
 
       if (status === "paid") {
         totalPaid += amount;
@@ -52,13 +52,14 @@ router.get("/dashboard-overview/:userId", async (req, res) => {
         totalOutstanding += amount;
 
         // Check overdue
-        if (data.dueDate) {
+        const dueDateVal = data.due_date || data.dueDate;
+        if (dueDateVal) {
           let dueDate;
           // Handle Firestore Timestamp or String
-          if (data.dueDate.toDate) {
-             dueDate = data.dueDate.toDate();
+          if (dueDateVal.toDate) {
+             dueDate = dueDateVal.toDate();
           } else {
-             dueDate = new Date(data.dueDate);
+             dueDate = new Date(dueDateVal);
           }
 
           if (dueDate < now) {
