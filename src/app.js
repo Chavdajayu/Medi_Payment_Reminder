@@ -26,7 +26,7 @@ app.use("/api/upload", pdfRoutes);
 app.use("/api/invoices", invoicesRoutes);
 app.use("/api/retailers", retailersRoutes);
 app.use("/api/settings", settingsRoutes);
-app.use("/api/stats", statsRoutes);
+app.use("/api/dashboard-overview", statsRoutes);
 app.use("/api/test", reminderRoutes);
 
 app.get("/", (req, res) => res.send("API Running"));

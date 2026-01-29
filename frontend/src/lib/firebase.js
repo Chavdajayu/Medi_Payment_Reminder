@@ -46,4 +46,5 @@ if (typeof window !== "undefined") {
 
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+export const analytics = typeof window !== "undefined" ? isSupported().then(yes => yes ? getAnalytics(app) : null) : null;
 export default app;

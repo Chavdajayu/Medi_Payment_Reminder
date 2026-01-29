@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { API_URL } from '../config/api';
 import { Card } from '@/components/ui/card';
 import { Users, DollarSign, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
@@ -20,7 +21,7 @@ export default function Dashboard() {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/stats/${user.uid}`);
+      const response = await axios.get(`${API_URL}/api/dashboard-overview/${user.uid}`);
       setStats(response.data);
     } catch (error) {
       console.error('Error fetching stats:', error);
