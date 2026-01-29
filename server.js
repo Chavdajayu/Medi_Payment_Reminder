@@ -10,8 +10,10 @@ import invoiceRoutes from "./src/routes/invoices.routes.js";
 import retailerRoutes from "./src/routes/retailers.routes.js";
 import settingsRoutes from "./src/routes/settings.routes.js";
 import statsRoutes from "./src/routes/stats.routes.js";
+import dashboardRoutes from "./src/routes/dashboard.js";
 
 import "./src/utils/scheduler.js";
+import dashboardRoutes from "./src/routes/dashboard.js";
 
 dotenv.config();
 
