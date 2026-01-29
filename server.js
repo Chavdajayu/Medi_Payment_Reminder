@@ -49,6 +49,7 @@ app.use("/api/invoices", invoiceRoutes);
 app.use("/api/retailers", retailerRoutes);
 app.use("/api/settings", settingsRoutes);
 app.use("/api/stats", statsRoutes);
+app.use("/api", dashboardRoutes);
 
 // Compatibility routes for existing frontend calls if any
 app.use("/api/upload", pdfRoutes); 
@@ -59,5 +60,5 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Internal Server Error" });
 });
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`));

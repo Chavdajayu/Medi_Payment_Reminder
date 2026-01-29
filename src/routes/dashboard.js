@@ -3,6 +3,13 @@ import db from "../config/firebase.js";
 
 const router = express.Router();
 
+router.get("/dashboard-overview", (req, res) => {
+  res.status(400).json({ 
+    error: "User ID is required",
+    message: "Please use the format: /api/dashboard-overview/:userId" 
+  });
+});
+
 router.get("/dashboard-overview/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
