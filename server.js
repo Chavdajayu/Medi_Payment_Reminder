@@ -13,7 +13,6 @@ import statsRoutes from "./src/routes/stats.routes.js";
 import dashboardRoutes from "./src/routes/dashboard.js";
 
 import "./src/utils/scheduler.js";
-import dashboardRoutes from "./src/routes/dashboard.js";
 
 dotenv.config();
 
